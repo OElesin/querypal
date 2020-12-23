@@ -2,11 +2,12 @@
   <div id="app">
     <amplify-authenticator>
       <amplify-sign-in
-          header-text="Querypal, Web UI for Amazon Athena"
-          slot="sign-in"
+        header-text="Querypal, Web UI for Amazon Athena"
+        slot="sign-in"
+        :style="{display: 'flex',justifyContent: 'center', marginTop: '15em'}"
       >
       </amplify-sign-in>
-      <Header :user="user" />
+      <Header />
       <b-container fluid>
         <QueryPalApp/>
       </b-container>
