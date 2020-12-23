@@ -33,13 +33,18 @@ import {Auth} from '@aws-amplify/auth';
 export default {
   name: "DatabaseSearch",
   async mounted() {
-    const credentials = await Auth.currentCredentials()
-    this.client = new AthenaClient({credentials, region: 'eu-west-1'})
-    await this.listAthenaDatabases();
+    const userInfo = await Auth.currentUserInfo()
+    this.credentials = await Auth.currentCredentials();
+    if(userInfo){
+      console.log(await Auth.currentUserInfo())
+      this.client = new AthenaClient({credentials: this.credentials, region: 'eu-west-1'})
+      await this.listAthenaDatabases();
+    }
   },
   data() {
     return {
       client: null,
+      credentials: null,
       catalogName: 'AwsDataCatalog',
       form: {
         databaseName: '',
@@ -51,6 +56,13 @@ export default {
       ],
       tables: [],
       tableColumns: null
+    }
+  },
+  watch : {
+    'this.credentials': {
+      async "handler"() {
+        this.credentials = await Auth.currentCredentials();
+      }
     }
   },
   methods: {
@@ -94,7 +106,6 @@ export default {
       try {
         const response = await this.client.send(command);
         this.tableColumns = response.TableMetadataList[0].Columns
-        console.log(this.tableColumns)
       }catch (e) {
         console.log(e)
       }

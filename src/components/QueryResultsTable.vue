@@ -96,7 +96,6 @@ export default {
       if (this.data.length < 1) return;
 
       let local = [...this.data];
-      console.log(local)
 
       // sortOrder can be empty, so we have to check for that as well
       if (sortOrder.length > 0) {
@@ -112,7 +111,6 @@ export default {
           local.length,
           this.perPage
       );
-      console.log('pagination:', pagination)
       let from = pagination.from - 1;
       let to = from + this.perPage;
 

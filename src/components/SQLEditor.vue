@@ -25,7 +25,7 @@
           </b-col>
           <b-col md="4">
             <div class="query-button-holder">
-              <b-button variant="outline-primary" style="margin-right: 11px">Save Query</b-button>
+              <b-button variant="outline-primary" @click="showSaveQueryModal = !showSaveQueryModal" style="margin-right: 11px">Save Query</b-button>
               <b-button variant="info" @click="createAthenaQueryExecution">Run Query</b-button>
             </div>
           </b-col>
@@ -37,6 +37,29 @@
         <query-results-table :athena-query-id="queryExecutionId" v-if="showResults"/>
       </b-col>
     </b-row>
+    <b-modal
+        title="Save a new Query"
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="handleOk" ok-title="Save Query" v-model="showSaveQueryModal">
+      <code>
+        {{code}}
+      </code>
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group label="Name" label-for="name-input" invalid-feedback="Name is required" :state="saveQueryForm.nameState">
+          <b-form-input id="name-input" v-model="saveQueryForm.queryName" :state="saveQueryForm.nameState" required></b-form-input>
+        </b-form-group>
+        <b-form-group label="Query Description" label-for="desc-input">
+          <b-form-textarea
+              id="desc-input"
+              v-model="saveQueryForm.queryDescription"
+              placeholder="Enter something..."
+              rows="3"
+              max-rows="6"
+          ></b-form-textarea>
+        </b-form-group>
+      </form>
+    </b-modal>
   </b-col>
 </template>
 
@@ -50,7 +73,13 @@ import "prismjs/components/prism-sql.js"
 import 'prismjs/themes/prism-tomorrow.css';
 import {Auth} from "@aws-amplify/auth";
 import awsconfig from "@/aws-exports";
-import {AthenaClient, StartQueryExecutionCommand, GetQueryExecutionCommand} from "@aws-sdk/client-athena";
+import {
+  AthenaClient,
+  StartQueryExecutionCommand,
+  GetQueryExecutionCommand,
+  // CreateNamedQueryCommand
+} from "@aws-sdk/client-athena";
+// import SaveQueryModal from '@/components/SaveQueryModal'
 
 export default {
   name: "SQLEditor",
@@ -62,6 +91,7 @@ export default {
   components: {
     PrismEditor,
     QueryResultsTable,
+    // SaveQueryModal,
   },
   data: () => ({
     code: 'SELECT COUNT(1) FROM USERS',
@@ -75,11 +105,42 @@ export default {
     queryExecutionErrorMsg: null,
     showError: false,
     showResults: false,
-    showProgress: false
+    showProgress: false,
+    showSaveQueryModal: false,
+    saveQueryForm: {
+      nameState: null,
+      queryName: '',
+      queryDescription: ''
+    }
   }),
   methods: {
     highlighter(code) {
       return highlight(code, languages.sql);
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity()
+      this.saveQueryForm.nameState = valid
+      return valid
+    },
+    resetModal() {
+      this.saveQueryForm.name = ''
+      this.saveQueryForm.nameState = null
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.handleSubmit()
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return
+      }
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
     },
     async createAthenaQueryExecution() {
       const queryParams = {
@@ -96,6 +157,8 @@ export default {
         await this._startPolling(this.queryExecutionId)
       } catch (e) {
         console.log(e)
+        this.showError = true;
+        this.queryExecutionErrorMsg = e
       }
     },
     async _startPolling(id) {
@@ -151,6 +214,6 @@ export default {
 
 .query-button-holder {
   margin-top: 10px;
-  margin-left: 11em;
+  margin-left: 6em;
 }
 </style>

@@ -1,0 +1,17 @@
+{
+  "projectName": "querypal",
+  "version": "3.0",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "vue",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "dist",
+      "BuildCommand": "vue-cli-service build",
+      "StartCommand": "vue-cli-service serve"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
