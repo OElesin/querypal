@@ -1,4 +1,4 @@
-# querypal
+# Querypal
 
 ## Project setup
 ```
