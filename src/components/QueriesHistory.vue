@@ -2,7 +2,7 @@
   <div>
     <h5>Query History</h5>
     <small>Your last 10 SQL queries</small>
-    <b-list-group>
+    <b-list-group class="scroll-code">
       <b-list-group-item class="d-flex justify-content-between align-items-center" v-for="query in userQueryList.slice(1).slice(-10)" :key="query.queryExecutionId">
         <code class="code">{{query.queryString}}</code>
         <input type="hidden" :id="query.queryExecutionId.split('-')[0]" :value="query.queryString">
@@ -64,5 +64,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   border: 1px solid #fff;
+}
+.scroll-code {
+  overflow-y: scroll;
+  height: 250px;
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="table-responsive">
     <vuetable ref="vuetable"
       :api-mode="false"
       :fields="columns"
       :data-manager="dataManager"
       :per-page="perPage"
       pagination-path="pagination"
-      @vuetable:pagination-data="onPaginationData"
+      @vuetable:pagination-data="onPaginationData" class="unstackable"
     ></vuetable>
     <div style="padding-top:10px">
       <vuetable-pagination ref="pagination"
