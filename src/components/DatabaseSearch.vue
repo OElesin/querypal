@@ -32,11 +32,10 @@ import {Auth} from '@aws-amplify/auth';
 
 export default {
   name: "DatabaseSearch",
-  async mounted() {
+  mounted: async function () {
     const userInfo = await Auth.currentUserInfo()
-    this.credentials = await Auth.currentCredentials();
-    if(userInfo){
-      console.log(await Auth.currentUserInfo())
+    if (userInfo) {
+      this.credentials = await Auth.currentCredentials();
       this.client = new AthenaClient({credentials: this.credentials, region: 'eu-west-1'})
       await this.listAthenaDatabases();
     }
@@ -59,10 +58,8 @@ export default {
     }
   },
   watch : {
-    'this.credentials': {
-      async "handler"() {
-        this.credentials = await Auth.currentCredentials();
-      }
+    credentials(newCredentials) {
+      this.credentials = newCredentials;
     }
   },
   methods: {

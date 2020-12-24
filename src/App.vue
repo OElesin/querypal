@@ -7,6 +7,11 @@
         :style="{display: 'flex',justifyContent: 'center', marginTop: '15em'}"
       >
       </amplify-sign-in>
+      <amplify-sign-up
+        header-text="Sign Up for Querypal demo"
+        slot="sign-up"
+        :style="{display: 'flex',justifyContent: 'center', marginTop: '15em'}"
+      ></amplify-sign-up>
       <Header />
       <b-container fluid>
         <QueryPalApp/>

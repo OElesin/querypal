@@ -51,11 +51,11 @@
         </b-form-group>
         <b-form-group label="Query Description" label-for="desc-input">
           <b-form-textarea
-              id="desc-input"
-              v-model="saveQueryForm.queryDescription"
-              placeholder="Enter something..."
-              rows="3"
-              max-rows="6"
+            id="desc-input"
+            v-model="saveQueryForm.queryDescription"
+            placeholder="Enter something..."
+            rows="3"
+            max-rows="6"
           ></b-form-textarea>
         </b-form-group>
       </form>
@@ -73,11 +73,12 @@ import "prismjs/components/prism-sql.js"
 import 'prismjs/themes/prism-tomorrow.css';
 import {Auth} from "@aws-amplify/auth";
 import awsconfig from "@/aws-exports";
+import Store from "@/store/main";
 import {
   AthenaClient,
   StartQueryExecutionCommand,
   GetQueryExecutionCommand,
-  // CreateNamedQueryCommand
+  CreateNamedQueryCommand
 } from "@aws-sdk/client-athena";
 // import SaveQueryModal from '@/components/SaveQueryModal'
 
@@ -94,7 +95,7 @@ export default {
     // SaveQueryModal,
   },
   data: () => ({
-    code: 'SELECT COUNT(1) FROM USERS',
+    code: '',
     lineNumbers: true,
     currentQueryId: null,
     client: null,
@@ -123,19 +124,32 @@ export default {
       return valid
     },
     resetModal() {
-      this.saveQueryForm.name = ''
+      this.saveQueryForm.queryName = ''
       this.saveQueryForm.nameState = null
     },
-    handleOk(bvModalEvt) {
+    async handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault()
       // Trigger submit handler
-      this.handleSubmit()
+      await this.handleSubmit()
     },
-    handleSubmit() {
+    async handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return
+      }
+      const params = {
+        Name: this.saveQueryForm.queryName,
+        Description: this.saveQueryForm.queryDescription,
+        Database: 'default',
+        QueryString: this.code
+      }
+      const command = new CreateNamedQueryCommand(params)
+      try {
+        const response = await this.client.send(command)
+        console.log(response)
+      } catch (e) {
+        console.log('Could not create named query')
       }
       // Hide the modal manually
       this.$nextTick(() => {
@@ -154,6 +168,8 @@ export default {
       try {
         const response = await this.client.send(command)
         this.queryExecutionId = response.QueryExecutionId
+        const newQueryToStore = [{queryString: this.code, queryExecutionId: this.queryExecutionId}]
+        Store.dispatch('addQueryToList', newQueryToStore)
         await this._startPolling(this.queryExecutionId)
       } catch (e) {
         console.log(e)
