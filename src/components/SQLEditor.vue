@@ -169,8 +169,8 @@ export default {
         const response = await this.client.send(command)
         this.queryExecutionId = response.QueryExecutionId
         const newQueryToStore = [{queryString: this.code, queryExecutionId: this.queryExecutionId}]
-        await Analytics.record({name: 'executeQuery', attributes: {queryExecutionId: this.queryExecutionId}})
         Store.dispatch('addQueryToList', newQueryToStore)
+        Analytics.record({name: 'executeQuery', attributes: {queryExecutionId: this.queryExecutionId}})
         await this._startPolling(this.queryExecutionId)
       } catch (e) {
         console.log(e)

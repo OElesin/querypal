@@ -84,15 +84,15 @@ export default {
         CatalogName: this.catalogName, /* required */
         DatabaseName: this.form.databaseName /* required */
       };
-      await Analytics.record(
-        {name: 'listDatabaseTables', attributes: params}
-      )
       const command = new ListTableMetadataCommand(params);
       try {
         const response = await this.client.send(command);
         this.tables = response.TableMetadataList.map(table => {
           return table.Name
         });
+        Analytics.record(
+            {name: 'listDatabaseTables', attributes: params}
+        )
       }catch (e) {
         console.log(e)
       }
@@ -103,13 +103,13 @@ export default {
         DatabaseName: this.form.databaseName,
         Expression: this.form.tableName
       };
-      await Analytics.record(
-          {name: 'listTableColumns', attributes: params}
-      )
       const command = new ListTableMetadataCommand(params);
       try {
         const response = await this.client.send(command);
         this.tableColumns = response.TableMetadataList[0].Columns
+        Analytics.record(
+            {name: 'listTableColumns', attributes: params}
+        )
       }catch (e) {
         console.log(e)
       }
