@@ -27,7 +27,7 @@
     }
   },
   "datalake": {
-    "querypal": {
+    "querypalathena": {
       "service": "datalakeaccess",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
