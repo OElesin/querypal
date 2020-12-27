@@ -1,0 +1,21 @@
+{
+    "appName": "querypalpinpoint",
+    "roleName": "pinpointLambdaRolefeb0a3f6",
+    "cloudformationPolicyName": "cloudformationPolicyfeb0a3f6",
+    "cloudWatchPolicyName": "cloudWatchPolicyfeb0a3f6",
+    "pinpointPolicyName": "pinpointPolicyfeb0a3f6",
+    "authPolicyName": "pinpoint_amplify_feb0a3f6",
+    "unauthPolicyName": "pinpoint_amplify_feb0a3f6",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

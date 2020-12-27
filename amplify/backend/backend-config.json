@@ -1,6 +1,6 @@
 {
   "auth": {
-    "querypalee0f36a1": {
+    "querypald06914aa": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,8 +8,14 @@
     }
   },
   "storage": {
-    "querypal": {
+    "querypalbucket": {
       "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "analytics": {
+    "querypalpinpoint": {
+      "service": "Pinpoint",
       "providerPlugin": "awscloudformation"
     }
   },
@@ -17,17 +23,7 @@
     "amplifyhosting": {
       "service": "amplifyhosting",
       "type": "cicd",
-      "lastPushTimeStamp": "2020-12-23T14:27:33.110Z"
-    },
-    "S3AndCloudFront": {
-      "service": "S3AndCloudFront",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "analytics": {
-    "querypal": {
-      "service": "Pinpoint",
-      "providerPlugin": "awscloudformation"
+      "lastPushTimeStamp": "2020-12-27T07:24:23.589Z"
     }
   },
   "datalake": {
@@ -37,7 +33,7 @@
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "querypal",
+          "resourceName": "querypalbucket",
           "attributes": [
             "BucketName"
           ]

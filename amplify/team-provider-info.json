@@ -1,23 +1,23 @@
 {
-  "dev": {
+  "master": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-querypal-dev-101108-authRole",
-      "UnauthRoleArn": "arn:aws:iam::514965996716:role/amplify-querypal-dev-101108-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::514965996716:role/amplify-querypal-dev-101108-authRole",
+      "AuthRoleName": "amplify-querypal-master-80954-authRole",
+      "UnauthRoleArn": "arn:aws:iam::514965996716:role/amplify-querypal-master-80954-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::514965996716:role/amplify-querypal-master-80954-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-querypal-dev-101108-deployment",
-      "UnauthRoleName": "amplify-querypal-dev-101108-unauthRole",
-      "StackName": "amplify-querypal-dev-101108",
-      "StackId": "arn:aws:cloudformation:eu-west-1:514965996716:stack/amplify-querypal-dev-101108/a2b88810-4435-11eb-b385-0ad60d2de4ed",
-      "AmplifyAppId": "d24uyzti0jybs8"
+      "DeploymentBucketName": "amplify-querypal-master-80954-deployment",
+      "UnauthRoleName": "amplify-querypal-master-80954-unauthRole",
+      "StackName": "amplify-querypal-master-80954",
+      "StackId": "arn:aws:cloudformation:eu-west-1:514965996716:stack/amplify-querypal-master-80954/86be4600-4812-11eb-905d-0aaf3c60bc1e",
+      "AmplifyAppId": "d14occrgozctac"
     },
     "categories": {
       "auth": {
-        "querypalee0f36a1": {}
+        "querypald06914aa": {}
       },
       "hosting": {
         "amplifyhosting": {
-          "appId": "d24uyzti0jybs8",
+          "appId": "d14occrgozctac",
           "type": "cicd"
         }
       }
