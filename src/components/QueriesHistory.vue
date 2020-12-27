@@ -14,6 +14,7 @@
 
 <script>
 import Store from "@/store/main";
+import { Analytics } from '@aws-amplify/analytics';
 export default {
   name: "QueriesHistory",
   mounted() {
@@ -36,6 +37,7 @@ export default {
   methods: {
     copyTestingCode (id) {
       let testingCodeToCopy = document.querySelector(`#${CSS.escape(id)}`)
+      Analytics.record({name: 'copyHistoryQuery', attributes: {historyId: id}})
       testingCodeToCopy.setAttribute('type', 'text')
       testingCodeToCopy.select()
       let copiedQuery = testingCodeToCopy.value

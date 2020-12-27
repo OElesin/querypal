@@ -1,6 +1,6 @@
 {
     "identityPoolName": "querypalee0f36a1_identitypool_ee0f36a1",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "querypee0f36a1",
     "userPoolName": "querypalee0f36a1_userpool_ee0f36a1",
     "autoVerifiedAttributes": [

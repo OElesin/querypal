@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  authRoleName:
+    Type: String
+  storagequerypalBucketName:
+    Type: String
+  env:
+    Type: String
+Resources:
+  AuthUserAthenaAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: 'querypal-auth-user-athena-policy'
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - athena:ListDataCatalogs
+              - athena:ListTableMetadata
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - glue:SearchTables
+              - athena:StartQueryExecution
+              - athena:GetQueryResultsStream
+              - glue:GetTables
+              - glue:GetPartitions
+              - athena:GetQueryResults
+              - athena:GetDatabase
+              - athena:GetDataCatalog
+              - athena:GetNamedQuery
+              - glue:GetDatabases
+              - athena:ListQueryExecutions
+              - athena:ListNamedQueries
+              - glue:GetTable
+              - glue:GetDatabase
+              - athena:CreateNamedQuery
+              - glue:GetPartition
+              - athena:ListDatabases
+              - athena:StopQueryExecution
+              - athena:GetQueryExecution
+            Resource:
+              - !Sub arn:aws:athena:*:${AWS::AccountId}:workgroup/*
+              - !Sub arn:aws:athena:*:${AWS::AccountId}:datacatalog/*
+              - !Sub arn:aws:glue:*:${AWS::AccountId}:catalog
+              - !Sub arn:aws:glue:*:${AWS::AccountId}:table/*/*
+              - !Sub arn:aws:glue:*:${AWS::AccountId}:database/*
+      Roles:
+        - !Ref authRoleName
+
+  AuthUserS3AccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: 'querypal-auth-user-s3-policy'
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetBucketLocation
+              - s3:GetObject
+              - s3:ListBucket
+              - s3:ListBucketMultipartUploads
+              - s3:ListMultipartUploadParts
+              - s3:AbortMultipartUpload
+              - s3:PutObject
+            Resource:
+              - !Sub 'arn:aws:s3:::${storagequerypalBucketName}'
+              - !Sub 'arn:aws:s3:::${storagequerypalBucketName}/*'
+          - Effect: Allow
+            Action:
+              - s3:GetBucketLocation
+              - s3:GetObject
+              - s3:ListBucket
+              - s3:ListBucketMultipartUploads
+              - s3:ListMultipartUploadParts
+            Resource: '*'
+      Roles:
+        - !Ref authRoleName

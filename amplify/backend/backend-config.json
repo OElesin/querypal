@@ -23,5 +23,26 @@
       "service": "S3AndCloudFront",
       "providerPlugin": "awscloudformation"
     }
+  },
+  "analytics": {
+    "querypal": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "datalake": {
+    "querypal": {
+      "service": "datalakeaccess",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "querypal",
+          "attributes": [
+            "BucketName"
+          ]
+        }
+      ]
+    }
   }
 }

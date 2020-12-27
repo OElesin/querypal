@@ -72,6 +72,7 @@ import 'prismjs/components/prism-clike';
 import "prismjs/components/prism-sql.js"
 import 'prismjs/themes/prism-tomorrow.css';
 import {Auth} from "@aws-amplify/auth";
+import { Analytics } from '@aws-amplify/analytics';
 import awsconfig from "@/aws-exports";
 import Store from "@/store/main";
 import {
@@ -116,7 +117,7 @@ export default {
   }),
   methods: {
     highlighter(code) {
-      return highlight(code, languages.sql);
+      return highlight(code, languages.sql, 'sql');
     },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity()
@@ -156,19 +157,20 @@ export default {
         this.$bvModal.hide('modal-prevent-closing')
       })
     },
-    async createAthenaQueryExecution() {
+    createAthenaQueryExecution: async function () {
       const queryParams = {
         QueryString: this.code,
         ResultConfiguration: {
           OutputLocation: this.s3QueryOutputPath,
         },
-        QueryExecutionContext: { Database: 'sampledb' }
+        QueryExecutionContext: {Database: 'sampledb'}
       }
       const command = new StartQueryExecutionCommand(queryParams)
       try {
         const response = await this.client.send(command)
         this.queryExecutionId = response.QueryExecutionId
         const newQueryToStore = [{queryString: this.code, queryExecutionId: this.queryExecutionId}]
+        await Analytics.record({name: 'executeQuery', attributes: {queryExecutionId: this.queryExecutionId}})
         Store.dispatch('addQueryToList', newQueryToStore)
         await this._startPolling(this.queryExecutionId)
       } catch (e) {

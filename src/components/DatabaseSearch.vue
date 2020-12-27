@@ -29,6 +29,7 @@
 // import AWS from 'aws-sdk';
 import {AthenaClient, ListDatabasesCommand, ListTableMetadataCommand} from '@aws-sdk/client-athena';
 import {Auth} from '@aws-amplify/auth';
+import { Analytics } from '@aws-amplify/analytics';
 
 export default {
   name: "DatabaseSearch",
@@ -83,6 +84,9 @@ export default {
         CatalogName: this.catalogName, /* required */
         DatabaseName: this.form.databaseName /* required */
       };
+      await Analytics.record(
+        {name: 'listDatabaseTables', attributes: params}
+      )
       const command = new ListTableMetadataCommand(params);
       try {
         const response = await this.client.send(command);
@@ -99,6 +103,9 @@ export default {
         DatabaseName: this.form.databaseName,
         Expression: this.form.tableName
       };
+      await Analytics.record(
+          {name: 'listTableColumns', attributes: params}
+      )
       const command = new ListTableMetadataCommand(params);
       try {
         const response = await this.client.send(command);
