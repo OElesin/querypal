@@ -81,7 +81,6 @@ import {
   GetQueryExecutionCommand,
   CreateNamedQueryCommand
 } from "@aws-sdk/client-athena";
-// import SaveQueryModal from '@/components/SaveQueryModal'
 
 export default {
   name: "SQLEditor",
