@@ -2,7 +2,7 @@
   "authRoleName": {
     "Ref": "AuthRoleName"
   },
-  "storagequerypalBucketName": {
+  "storagequerypalbucketBucketName": {
     "Fn::GetAtt": [
       "storagequerypal",
       "Outputs.BucketName"

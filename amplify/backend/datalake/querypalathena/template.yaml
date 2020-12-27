@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   authRoleName:
     Type: String
-  storagequerypalBucketName:
+  storagequerypalbucketBucketName:
     Type: String
   env:
     Type: String
@@ -67,8 +67,8 @@ Resources:
               - s3:AbortMultipartUpload
               - s3:PutObject
             Resource:
-              - !Sub 'arn:aws:s3:::${storagequerypalBucketName}'
-              - !Sub 'arn:aws:s3:::${storagequerypalBucketName}/*'
+              - !Sub 'arn:aws:s3:::${storagequerypalbucketBucketName}'
+              - !Sub 'arn:aws:s3:::${storagequerypalbucketBucketName}/*'
           - Effect: Allow
             Action:
               - s3:GetBucketLocation
