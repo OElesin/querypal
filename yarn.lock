@@ -94,22 +94,7 @@
     url "^0.11.0"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/datastore@^2.2.6":
-  version "2.9.2"
-  resolved "https://registry.npmjs.org/@aws-amplify/datastore/-/datastore-2.9.2.tgz"
-  integrity sha512-2RGDuYIw1AimIlvoXIjeKrAGlOBuiecwdJ8nk9s3J5gjkVfdVIWdyrS99Q2e3kuudtV+qCjEUTrZdpaZV/Yujw==
-  dependencies:
-    "@aws-amplify/api" "3.2.16"
-    "@aws-amplify/core" "3.8.8"
-    "@aws-amplify/pubsub" "3.2.14"
-    idb "5.0.6"
-    immer "6.0.1"
-    ulid "2.3.0"
-    uuid "3.3.2"
-    zen-observable-ts "0.8.19"
-    zen-push "0.2.1"
-
-"@aws-amplify/datastore@^2.9.2":
+"@aws-amplify/datastore@^2.2.6", "@aws-amplify/datastore@^2.9.2":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@aws-amplify/datastore/-/datastore-2.9.2.tgz#8a9db8a4053e1468d28be0c5d37f524376792f4c"
   integrity sha512-2RGDuYIw1AimIlvoXIjeKrAGlOBuiecwdJ8nk9s3J5gjkVfdVIWdyrS99Q2e3kuudtV+qCjEUTrZdpaZV/Yujw==
@@ -7942,6 +7927,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jump.js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jump.js/-/jump.js-1.0.2.tgz#e0641b47f40a38f2139c25fda0500bf28e43015a"
+  integrity sha1-4GQbR/QKOPITnCX9oFAL8o5DAVo=
+
 just-extend@^4.0.2:
   version "4.1.1"
   resolved "https://registry.npmjs.org/just-extend/-/just-extend-4.1.1.tgz"
@@ -9131,7 +9121,7 @@ pnp-webpack-plugin@^1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
-popper.js@^1.16.1:
+popper.js@^1.16.0, popper.js@^1.16.1:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz"
   integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
@@ -11336,7 +11326,17 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue@^2.6.12:
+vue-tour@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/vue-tour/-/vue-tour-1.5.0.tgz#4dbbbc03ea6932a1ae3ccd819c219304f3a30109"
+  integrity sha512-T92vetsw4iLO+31kQ7Q5DIKVbgqEE7SmLmfkUEgIznMn59tCELfsklxyUP9irAcRqrZdlV8zT0HgFgzGXeZemg==
+  dependencies:
+    hash-sum "^2.0.0"
+    jump.js "^1.0.2"
+    popper.js "^1.16.0"
+    vue "^2.6.10"
+
+vue@^2.6.10, vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==

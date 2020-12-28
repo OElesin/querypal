@@ -10,12 +10,15 @@ import { Analytics } from '@aws-amplify/analytics';
 import awsconfig from "./aws-exports";
 import VueLodash from 'vue-lodash';
 import lodash from 'lodash';
+import VueTour from 'vue-tour'
+import 'vue-tour/dist/vue-tour.css'
 
 Vue.config.productionTip = false
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+Vue.use(IconsPlugin);
+Vue.use(VueTour);
 Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig);

@@ -13,6 +13,7 @@
         v-model="code"
         :highlight="highlighter"
         :line-numbers="lineNumbers"
+        id="v-step-2"
     ></prism-editor>
     <b-row style="margin-top: 15px">
       <b-col cols="12">

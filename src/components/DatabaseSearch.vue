@@ -7,10 +7,10 @@
             label="Database"
             label-for="input-1"
         >
-          <b-form-select v-model="form.databaseName" @change="listDatabaseTables" :options="databases"></b-form-select>
+          <b-form-select id="v-step-0" v-model="form.databaseName" @change="listDatabaseTables" :options="databases"></b-form-select>
         </b-form-group>
         <b-form-group id="input-group-2" label="Tables" label-for="input-2">
-          <b-form-select v-model="form.tableName" @change="listTableColumns" :options="tables"></b-form-select>
+          <b-form-select id="v-step-1" v-model="form.tableName" @change="listTableColumns" :options="tables"></b-form-select>
         </b-form-group>
         <b-form-group id="input-group-2" v-if="tableColumns" label="Columns" label-for="input-2">
           <b-list-group>
