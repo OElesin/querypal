@@ -25,8 +25,8 @@
           </b-col>
           <b-col md="4">
             <div class="query-button-holder">
-              <b-button variant="outline-primary" @click="showSaveQueryModal = !showSaveQueryModal" style="margin-right: 11px">Save Query</b-button>
-              <b-button variant="info" @click="createAthenaQueryExecution">Run Query</b-button>
+              <b-button variant="outline-primary" :disabled="code === ''" @click="showSaveQueryModal = !showSaveQueryModal" style="margin-right: 11px">Save Query</b-button>
+              <b-button variant="info" :disabled="code === ''" @click="createAthenaQueryExecution">Run Query</b-button>
             </div>
           </b-col>
         </b-row>
@@ -74,7 +74,6 @@ import 'prismjs/themes/prism-tomorrow.css';
 import {Auth} from "@aws-amplify/auth";
 import { Analytics } from '@aws-amplify/analytics';
 import awsconfig from "@/aws-exports";
-import Store from "@/store/main";
 import {
   AthenaClient,
   StartQueryExecutionCommand,
@@ -182,8 +181,9 @@ export default {
       try {
         const response = await this.client.send(command)
         this.queryExecutionId = response.QueryExecutionId
-        const newQueryToStore = [{queryString: this.code, queryExecutionId: this.queryExecutionId}]
-        Store.dispatch('addQueryToList', newQueryToStore)
+        await queryDao.saveSessionQuery({
+          queryString: this.code, queryExecutionId: this.queryExecutionId
+        })
         Analytics.record({name: 'executeQuery', attributes: {queryExecutionId: this.queryExecutionId}})
         await this._startPolling(this.queryExecutionId)
       } catch (e) {

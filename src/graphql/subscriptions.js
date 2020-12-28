@@ -46,3 +46,39 @@ export const onDeleteSqlQuery = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSessionQuery = /* GraphQL */ `
+  subscription OnCreateSessionQuery($owner: String!) {
+    onCreateSessionQuery(owner: $owner) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateSessionQuery = /* GraphQL */ `
+  subscription OnUpdateSessionQuery($owner: String!) {
+    onUpdateSessionQuery(owner: $owner) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteSessionQuery = /* GraphQL */ `
+  subscription OnDeleteSessionQuery($owner: String!) {
+    onDeleteSessionQuery(owner: $owner) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;

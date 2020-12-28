@@ -38,3 +38,34 @@ export const listSqlQuerys = /* GraphQL */ `
     }
   }
 `;
+export const getSessionQuery = /* GraphQL */ `
+  query GetSessionQuery($id: ID!) {
+    getSessionQuery(id: $id) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listSessionQuerys = /* GraphQL */ `
+  query ListSessionQuerys(
+    $filter: ModelSessionQueryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSessionQuerys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        queryString
+        queryExecutionId
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;

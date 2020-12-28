@@ -55,3 +55,48 @@ export const deleteSqlQuery = /* GraphQL */ `
     }
   }
 `;
+export const createSessionQuery = /* GraphQL */ `
+  mutation CreateSessionQuery(
+    $input: CreateSessionQueryInput!
+    $condition: ModelSessionQueryConditionInput
+  ) {
+    createSessionQuery(input: $input, condition: $condition) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateSessionQuery = /* GraphQL */ `
+  mutation UpdateSessionQuery(
+    $input: UpdateSessionQueryInput!
+    $condition: ModelSessionQueryConditionInput
+  ) {
+    updateSessionQuery(input: $input, condition: $condition) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteSessionQuery = /* GraphQL */ `
+  mutation DeleteSessionQuery(
+    $input: DeleteSessionQueryInput!
+    $condition: ModelSessionQueryConditionInput
+  ) {
+    deleteSessionQuery(input: $input, condition: $condition) {
+      id
+      queryString
+      queryExecutionId
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;

@@ -7,3 +7,10 @@ type SQLQuery @model
     ownerId: String
     description: String
 }
+
+type SessionQuery @model
+ @auth(rules: [{allow: owner}]) {
+    id: ID!
+    queryString: String!
+    queryExecutionId: String
+}

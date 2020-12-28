@@ -4,8 +4,9 @@ import { schema } from './schema';
 
 
 
-const { SQLQuery } = initSchema(schema);
+const { SQLQuery, SessionQuery } = initSchema(schema);
 
 export {
-  SQLQuery
+  SQLQuery,
+  SessionQuery
 };

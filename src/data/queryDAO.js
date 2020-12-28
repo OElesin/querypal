@@ -1,16 +1,7 @@
-import {DataStore} from '@aws-amplify/datastore';
-import { SQLQuery } from '@/models'
-
+import {DataStore, Predicates} from '@aws-amplify/datastore';
+import { SQLQuery, SessionQuery } from '@/models'
 
 const queryDao = {
-    async addNewQueryToLocalStorage(image){
-        console.log("Added images to local storage")
-        const result = await localStorage.getItem('userQueryList')
-        const payload = JSON.parse(result) || [];
-        payload.push(image)
-        let userContentList = JSON.stringify(payload)
-        localStorage.setItem('userQueryList', userContentList)
-    },
 
     async saveQuery(savedQueryObject){
         await DataStore.save(
@@ -28,6 +19,25 @@ const queryDao = {
             query.ownerEmail("eq", ownerEmail), {
             page: 0, limit: 20
         })
+    },
+
+    async saveSessionQuery(sessionQueryObject) {
+      await DataStore.save(
+          new SessionQuery({
+              queryString: sessionQueryObject['queryString'],
+              queryExecutionId: sessionQueryObject['queryExecutionId']
+          })
+      )
+    },
+
+    async getSessionQueries() {
+        return await DataStore.query(SessionQuery, Predicates.ALL, {
+            page: 0, limit: 10
+        })
+    },
+
+    sessionQuerySubscription () {
+        return DataStore.observe(SessionQuery)
     }
 }
 

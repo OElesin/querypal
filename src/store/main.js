@@ -30,10 +30,6 @@ const userMutations = {
             for (let i in userQueriesList)
                 state.userQueriesList.push(userQueriesList[i]);
         }
-        console.log(userQueriesList)
-        QueryDao.addNewQueryToLocalStorage(userQueriesList[0]).then(data => {
-            console.log(data)
-        })
         // may be do some insertion to dynamodb
     },
     /**
