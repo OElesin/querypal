@@ -26,8 +26,14 @@
           </b-col>
           <b-col md="4">
             <div class="query-button-holder">
-              <b-button variant="outline-primary" :disabled="code === ''" @click="showSaveQueryModal = !showSaveQueryModal" style="margin-right: 11px">Save Query</b-button>
-              <b-button variant="info" :disabled="code === ''" @click="createAthenaQueryExecution">Run Query</b-button>
+              <b-button variant="outline-primary" :disabled="code === ''" @click="showSaveQueryModal = !showSaveQueryModal" style="margin-right: 11px">
+                Share
+                <b-icon icon="share-fill"></b-icon>
+              </b-button>
+              <b-button variant="info" :disabled="code === ''" @click="createAthenaQueryExecution">
+                Run
+                <b-icon icon="play-fill"></b-icon>
+              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -39,14 +45,18 @@
       </b-col>
     </b-row>
     <b-modal
-        title="Save a new Query"
+        title="Share with other colleagues"
         @show="resetModal"
         @hidden="resetModal"
         @ok="handleOk" ok-title="Save Query" v-model="showSaveQueryModal">
-      <code>
-        {{code}}
-      </code>
-      <form ref="form" @submit.stop.prevent="handleSubmit">
+      <b-form-textarea disabled v-model="code" max-rows="6"></b-form-textarea>
+      <div class="d-block mt-2">
+        <small>
+          Shared queries appear in the Querypal timeline and search results. Other users and colleagues will be able to
+          reuse your shared queries.
+        </small>
+      </div>
+      <form ref="form" @submit.stop.prevent="handleSubmit" class="mt-2">
         <b-form-group label="Name" label-for="name-input" invalid-feedback="Name is required" :state="saveQueryForm.nameState">
           <b-form-input id="name-input" v-model="saveQueryForm.queryName" :state="saveQueryForm.nameState" required></b-form-input>
         </b-form-group>

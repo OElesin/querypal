@@ -32,6 +32,8 @@ export default {
   },
   async mounted() {
     this.userQueriesList = await queryDao.getSessionQueries()
+    this.userQueriesList.sort()
+    this.userQueriesList.reverse()
   },
   data() {
     return {
