@@ -1,3 +1,5 @@
+import {DataStore} from '@aws-amplify/datastore';
+import { SQLQuery } from '@/models'
 
 
 const queryDao = {
@@ -8,6 +10,24 @@ const queryDao = {
         payload.push(image)
         let userContentList = JSON.stringify(payload)
         localStorage.setItem('userQueryList', userContentList)
+    },
+
+    async saveQuery(savedQueryObject){
+        await DataStore.save(
+            new SQLQuery({
+                name: savedQueryObject['name'],
+                queryString: savedQueryObject['queryString'],
+                ownerEmail: savedQueryObject['ownerEmail'],
+                description: savedQueryObject['description']
+            })
+        );
+    },
+
+    async getRecentQueries(ownerEmail) {
+        return await DataStore.query(SQLQuery, query =>
+            query.ownerEmail("eq", ownerEmail), {
+            page: 0, limit: 20
+        })
     }
 }
 

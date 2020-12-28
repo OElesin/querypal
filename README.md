@@ -19,7 +19,7 @@ Once queries are running, users can track query progress and when finished, get 
 
 ### TODOs
 - [ ] Saved queries
-- [ ] Query history for self
+- [x] Query history for self
 - [ ] Result export to CSV
 - [ ] Auto-suggestions
 

@@ -1,0 +1,9 @@
+type SQLQuery @model
+ @auth(rules: [{allow: owner}]) {
+    id: ID!
+    name: String!
+    queryString: String!
+    ownerEmail: String!
+    ownerId: String
+    description: String
+}

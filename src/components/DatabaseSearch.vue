@@ -28,19 +28,15 @@
 <script>
 // import AWS from 'aws-sdk';
 import {AthenaClient, ListDatabasesCommand, ListTableMetadataCommand} from '@aws-sdk/client-athena';
-import {Auth} from '@aws-amplify/auth';
 import { Analytics } from '@aws-amplify/analytics';
+import eventBus from "@/event";
 
 export default {
   name: "DatabaseSearch",
-  mounted: async function () {
-    const userInfo = await Auth.currentUserInfo()
-    if (userInfo) {
-      this.credentials = await Auth.currentCredentials();
-      this.client = new AthenaClient({credentials: this.credentials, region: 'eu-west-1'})
-      await this.listAthenaDatabases();
-    }
+  created() {
+    this.eventBusListener();
   },
+  mounted: async function () {},
   data() {
     return {
       client: null,
@@ -58,12 +54,13 @@ export default {
       tableColumns: null
     }
   },
-  watch : {
-    credentials(newCredentials) {
-      this.credentials = newCredentials;
-    }
-  },
   methods: {
+    eventBusListener(){
+      eventBus.$on('refreshCredentials', async (credentials) => {
+        this.client = new AthenaClient({credentials: credentials, region: 'eu-west-1'})
+        await this.listAthenaDatabases();
+      })
+    },
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))

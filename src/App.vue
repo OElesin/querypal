@@ -24,8 +24,9 @@
 <script>
 import Header from '@/components/Header'
 import QueryPalApp from '@/components/QueryPalApp'
-import { onAuthUIStateChange } from '@aws-amplify/ui-components'
-
+import { onAuthUIStateChange, AuthState } from '@aws-amplify/ui-components'
+import {Auth} from '@aws-amplify/auth';
+import eventBus from "@/event";
 
 export default {
   name: 'App',
@@ -37,6 +38,11 @@ export default {
     onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
+      if (authState === AuthState.SignedIn) {
+        Auth.currentCredentials().then(res => {
+          eventBus.$emit('refreshCredentials', res)
+        })
+      }
     })
   },
   data(){

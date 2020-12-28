@@ -109,6 +109,21 @@
     zen-observable-ts "0.8.19"
     zen-push "0.2.1"
 
+"@aws-amplify/datastore@^2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/datastore/-/datastore-2.9.2.tgz#8a9db8a4053e1468d28be0c5d37f524376792f4c"
+  integrity sha512-2RGDuYIw1AimIlvoXIjeKrAGlOBuiecwdJ8nk9s3J5gjkVfdVIWdyrS99Q2e3kuudtV+qCjEUTrZdpaZV/Yujw==
+  dependencies:
+    "@aws-amplify/api" "3.2.16"
+    "@aws-amplify/core" "3.8.8"
+    "@aws-amplify/pubsub" "3.2.14"
+    idb "5.0.6"
+    immer "6.0.1"
+    ulid "2.3.0"
+    uuid "3.3.2"
+    zen-observable-ts "0.8.19"
+    zen-push "0.2.1"
+
 "@aws-amplify/interactions@^3.1.19":
   version "3.3.16"
   resolved "https://registry.npmjs.org/@aws-amplify/interactions/-/interactions-3.3.16.tgz"

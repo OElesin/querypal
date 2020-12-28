@@ -81,10 +81,15 @@ import {
   GetQueryExecutionCommand,
   CreateNamedQueryCommand
 } from "@aws-sdk/client-athena";
+import eventBus from "@/event";
+import queryDao from "@/data/queryDAO";
 
 export default {
   name: "SQLEditor",
-  async mounted() {
+  async created() {
+    eventBus.$on('refreshCredentials', async (credentials) => {
+      this.client = new AthenaClient({credentials: credentials, region: 'eu-west-1'})
+    })
     const credentials = await Auth.currentCredentials()
     this.client = new AthenaClient({credentials, region: 'eu-west-1'})
     this.s3QueryOutputPath = `s3://${awsconfig.aws_user_files_s3_bucket}/private/`
@@ -148,8 +153,17 @@ export default {
       try {
         const response = await this.client.send(command)
         console.log(response)
+        let currentUser = await Auth.currentUserInfo()
+        await queryDao.saveQuery(
+            {
+              name: this.saveQueryForm.queryName, queryString: this.code,
+              ownerEmail: currentUser.attributes.email, description: this.saveQueryForm.queryDescription,
+              athenaNamedQueryId: response.NamedQueryId
+            }
+        )
       } catch (e) {
         console.log('Could not create named query')
+        console.log(e)
       }
       // Hide the modal manually
       this.$nextTick(() => {
