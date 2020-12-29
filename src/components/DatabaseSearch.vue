@@ -13,7 +13,7 @@
           <b-form-select id="v-step-1" v-model="form.tableName" @change="listTableColumns" :options="tables"></b-form-select>
         </b-form-group>
         <b-form-group id="input-group-2" v-if="tableColumns" label="Columns" label-for="input-2">
-          <b-list-group>
+          <b-list-group class="scroll-code">
             <b-list-group-item class="d-flex justify-content-between align-items-center" v-for="column in tableColumns" :key="column.Name">
               {{column.Name}}
               <small>{{ column.Type.length >= 7 ? 'struct' : column.Type }}</small>
@@ -126,5 +126,8 @@ export default {
 </script>
 
 <style scoped>
-
+.scroll-code {
+  overflow-y: scroll;
+  height: 300px;
+}
 </style>

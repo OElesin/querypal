@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-lg-5">
     <h5>Query History</h5>
     <small>Your last 10 SQL queries</small>
     <b-list-group class="scroll-code">
@@ -26,19 +26,24 @@ export default {
     })
     const credentials = await Auth.currentCredentials()
     this.client = new AthenaClient({credentials, region: 'eu-west-1'})
-    queryDao.sessionQuerySubscription().subscribe(msg => {
-      this.userQueriesList.unshift(msg.element)
+    this.currentUser = await Auth.currentUserInfo()
+    let self = this
+    queryDao.sessionQuerySubscription(this.currentUser.username).subscribe( {
+      next(sessionQuery) {
+        self.userQueriesList.unshift(sessionQuery.value.data.onCreateSessionQuery)
+      }
     })
+    let sessionQuerysResponse = await queryDao.getSessionQueries(this.currentUser.username)
+    this.userQueriesList = sessionQuerysResponse.data.listSessionQuerys.items
   },
   async mounted() {
-    this.userQueriesList = await queryDao.getSessionQueries()
-    this.userQueriesList.sort()
-    this.userQueriesList.reverse()
+
   },
   data() {
     return {
       userQueriesList: [],
-      client: null
+      client: null,
+      currentUser: null
     }
   },
   methods: {

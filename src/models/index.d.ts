@@ -6,6 +6,7 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 export declare class SQLQuery {
   readonly id: string;
+  readonly timestamp: number;
   readonly name: string;
   readonly queryString: string;
   readonly ownerEmail: string;
@@ -17,7 +18,9 @@ export declare class SQLQuery {
 
 export declare class SessionQuery {
   readonly id: string;
+  readonly timestamp: number;
   readonly queryString: string;
+  readonly ownerEmail: string;
   readonly queryExecutionId?: string;
   constructor(init: ModelInit<SessionQuery>);
   static copyOf(source: SessionQuery, mutator: (draft: MutableModel<SessionQuery>) => MutableModel<SessionQuery> | void): SessionQuery;

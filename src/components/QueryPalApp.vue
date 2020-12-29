@@ -2,7 +2,9 @@
   <b-row style="margin-top: 10px">
     <DatabaseSearch/>
     <SQLEditor/>
-    <b-col md="2">
+    <b-col md="3">
+      <QuerypalTimeline/>
+      <hr>
       <QueriesHistory/>
     </b-col>
     <v-tour name="myTour" :steps="steps"></v-tour>
@@ -13,9 +15,10 @@
 import SQLEditor from '@/components/SQLEditor'
 import DatabaseSearch from '@/components/DatabaseSearch'
 import QueriesHistory from '@/components/QueriesHistory'
+import QuerypalTimeline from '@/components/QuerypalTimeline'
 export default {
   name: "QueryPalApp",
-  components: {SQLEditor, DatabaseSearch, QueriesHistory},
+  components: {SQLEditor, DatabaseSearch, QueriesHistory, QuerypalTimeline},
   mounted() {
     this.$tours['myTour'].start()
   },
@@ -60,6 +63,16 @@ export default {
           },
           header: {
             title: 'Your query history',
+          },
+        },
+        {
+          target: '.querypal-timeline',
+          content: 'Scroll through the global timeline to see shared queries from colleagues and team members.',
+          params: {
+            placement: 'left'
+          },
+          header: {
+            title: 'Querypal Global Timeline',
           },
         }
       ]

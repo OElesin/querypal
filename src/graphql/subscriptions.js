@@ -2,47 +2,50 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateSqlQuery = /* GraphQL */ `
-  subscription OnCreateSqlQuery($owner: String!) {
-    onCreateSQLQuery(owner: $owner) {
+  subscription OnCreateSqlQuery {
+    onCreateSQLQuery {
       id
       name
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateSqlQuery = /* GraphQL */ `
-  subscription OnUpdateSqlQuery($owner: String!) {
-    onUpdateSQLQuery(owner: $owner) {
+  subscription OnUpdateSqlQuery {
+    onUpdateSQLQuery {
       id
       name
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteSqlQuery = /* GraphQL */ `
-  subscription OnDeleteSqlQuery($owner: String!) {
-    onDeleteSQLQuery(owner: $owner) {
+  subscription OnDeleteSqlQuery {
+    onDeleteSQLQuery {
       id
       name
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -51,6 +54,7 @@ export const onCreateSessionQuery = /* GraphQL */ `
     onCreateSessionQuery(owner: $owner) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt
@@ -63,6 +67,7 @@ export const onUpdateSessionQuery = /* GraphQL */ `
     onUpdateSessionQuery(owner: $owner) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt
@@ -75,6 +80,7 @@ export const onDeleteSessionQuery = /* GraphQL */ `
     onDeleteSessionQuery(owner: $owner) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt

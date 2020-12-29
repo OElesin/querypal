@@ -1,16 +1,24 @@
-type SQLQuery @model
- @auth(rules: [{allow: owner}]) {
-    id: ID!
-    name: String!
-    queryString: String!
-    ownerEmail: String!
-    ownerId: String
-    description: String
+type SQLQuery
+    @model(subscriptions: { level: public })
+    @auth(rules: [
+        {allow: owner},
+        {allow: private, provider: userPools, operations:[read]}
+    ])
+    {
+        id: ID!
+        name: String!
+        queryString: String!
+        ownerEmail: String!
+        ownerId: String
+        owner: String
+        description: String
+        timestamp: AWSTimestamp
 }
 
 type SessionQuery @model
  @auth(rules: [{allow: owner}]) {
     id: ID!
     queryString: String!
+    ownerEmail: String!
     queryExecutionId: String
 }

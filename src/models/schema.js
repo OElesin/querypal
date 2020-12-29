@@ -10,6 +10,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "timestamp": {
+                    "name": "timestamp",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -84,8 +91,22 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "timestamp": {
+                    "name": "timestamp",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "queryString": {
                     "name": "queryString",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "ownerEmail": {
+                    "name": "ownerEmail",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -130,5 +151,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "6484f29db944c3f9fff760f62a9bb6a2"
+    "version": "44842b387fc091604d281e168b845764"
 };

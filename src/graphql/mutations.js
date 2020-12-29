@@ -12,10 +12,11 @@ export const createSqlQuery = /* GraphQL */ `
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -30,10 +31,11 @@ export const updateSqlQuery = /* GraphQL */ `
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -48,10 +50,11 @@ export const deleteSqlQuery = /* GraphQL */ `
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -63,6 +66,7 @@ export const createSessionQuery = /* GraphQL */ `
     createSessionQuery(input: $input, condition: $condition) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt
@@ -78,6 +82,7 @@ export const updateSessionQuery = /* GraphQL */ `
     updateSessionQuery(input: $input, condition: $condition) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt
@@ -93,6 +98,7 @@ export const deleteSessionQuery = /* GraphQL */ `
     deleteSessionQuery(input: $input, condition: $condition) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt

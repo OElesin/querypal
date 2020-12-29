@@ -22,6 +22,7 @@ Vue.use(VueTour);
 Vue.use(VueLodash, { name: 'custom' , lodash: lodash })
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
+// Amplify.Logger.LOG_LEVEL = 'DEBUG'
 Analytics.autoTrack('pageView', {
   enabled: true,
   provider: 'AWSPinpoint',

@@ -1,5 +1,5 @@
 <template>
-  <b-col md="8">
+  <b-col md="7">
     <b-row>
       <b-col md="12">
         <b-progress :value="100" :max="100" animated v-if="showProgress"></b-progress>
@@ -48,7 +48,7 @@
         title="Share with other colleagues"
         @show="resetModal"
         @hidden="resetModal"
-        @ok="handleOk" ok-title="Save Query" v-model="showSaveQueryModal">
+        @ok="handleOk" ok-title="Share Query" v-model="showSaveQueryModal">
       <b-form-textarea disabled v-model="code" max-rows="6"></b-form-textarea>
       <div class="d-block mt-2">
         <small>
@@ -141,12 +141,14 @@ export default {
     resetModal() {
       this.saveQueryForm.queryName = ''
       this.saveQueryForm.nameState = null
+      this.saveQueryForm.queryDescription = ''
     },
     async handleOk(bvModalEvt) {
       // Prevent modal from closing
       bvModalEvt.preventDefault()
       // Trigger submit handler
       await this.handleSubmit()
+      this.resetModal();
     },
     async handleSubmit() {
       // Exit when the form isn't valid
@@ -167,7 +169,8 @@ export default {
         await queryDao.saveQuery(
             {
               name: this.saveQueryForm.queryName, queryString: this.code,
-              ownerEmail: currentUser.attributes.email, description: this.saveQueryForm.queryDescription,
+              ownerEmail: currentUser.attributes.email,
+              description: this.saveQueryForm.queryDescription,
               athenaNamedQueryId: response.NamedQueryId
             }
         )
@@ -192,8 +195,10 @@ export default {
       try {
         const response = await this.client.send(command)
         this.queryExecutionId = response.QueryExecutionId
+        let currentUser = await Auth.currentUserInfo()
         await queryDao.saveSessionQuery({
-          queryString: this.code, queryExecutionId: this.queryExecutionId
+          queryString: this.code, queryExecutionId: this.queryExecutionId,
+          ownerEmail: currentUser.attributes.email,
         })
         Analytics.record({name: 'executeQuery', attributes: {queryExecutionId: this.queryExecutionId}})
         await this._startPolling(this.queryExecutionId)

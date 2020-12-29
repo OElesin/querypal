@@ -1,43 +1,58 @@
-import {DataStore, Predicates} from '@aws-amplify/datastore';
-import { SQLQuery, SessionQuery } from '@/models'
+import API, { graphqlOperation } from '@aws-amplify/api';
+import {createSessionQuery, createSqlQuery} from '@/graphql/mutations'
+import { onCreateSessionQuery, onCreateSqlQuery } from '@/graphql/subscriptions'
+import { listSessionQuerys, listSqlQuerys } from '@/graphql/queries'
 
 const queryDao = {
 
     async saveQuery(savedQueryObject){
-        await DataStore.save(
-            new SQLQuery({
-                name: savedQueryObject['name'],
-                queryString: savedQueryObject['queryString'],
-                ownerEmail: savedQueryObject['ownerEmail'],
-                description: savedQueryObject['description']
-            })
-        );
+        await API.graphql(graphqlOperation(createSqlQuery, { input: {
+            name: savedQueryObject['name'],
+            queryString: savedQueryObject['queryString'],
+            ownerEmail: savedQueryObject['ownerEmail'],
+            description: savedQueryObject['description']
+        }}))
     },
 
-    async getRecentQueries(ownerEmail) {
-        return await DataStore.query(SQLQuery, query =>
-            query.ownerEmail("eq", ownerEmail), {
-            page: 0, limit: 20
-        })
+    async getRecentQueries() {
+        let filter = {
+            ownerEmail: {
+                ne: ''
+            }
+        }
+        return API.graphql({
+            query: listSqlQuerys, variables: {
+                filter: filter,
+                limit: 10
+            },
+        });
     },
 
     async saveSessionQuery(sessionQueryObject) {
-      await DataStore.save(
-          new SessionQuery({
-              queryString: sessionQueryObject['queryString'],
-              queryExecutionId: sessionQueryObject['queryExecutionId']
-          })
-      )
+        let response = await API.graphql(graphqlOperation(createSessionQuery, { input: {
+                queryString: sessionQueryObject['queryString'],
+                queryExecutionId: sessionQueryObject['queryExecutionId'],
+                ownerEmail: sessionQueryObject['ownerEmail'],
+            }}))
+        console.log(response)
     },
 
-    async getSessionQueries() {
-        return await DataStore.query(SessionQuery, Predicates.ALL, {
-            page: 0, limit: 10
-        })
+    async getSessionQueries(username) {
+        return API.graphql({
+            query: listSessionQuerys, variables: {
+                owner: username,
+                limit: 10
+            },
+        });
+
     },
 
-    sessionQuerySubscription () {
-        return DataStore.observe(SessionQuery)
+    sessionQuerySubscription (owner) {
+        return API.graphql(graphqlOperation(onCreateSessionQuery, { owner: owner}))
+    },
+
+    allQueriesSubscription() {
+        return API.graphql(graphqlOperation(onCreateSqlQuery))
     }
 }
 

@@ -9,10 +9,11 @@ export const getSqlQuery = /* GraphQL */ `
       queryString
       ownerEmail
       ownerId
+      owner
       description
+      timestamp
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -29,10 +30,11 @@ export const listSqlQuerys = /* GraphQL */ `
         queryString
         ownerEmail
         ownerId
+        owner
         description
+        timestamp
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -43,6 +45,7 @@ export const getSessionQuery = /* GraphQL */ `
     getSessionQuery(id: $id) {
       id
       queryString
+      ownerEmail
       queryExecutionId
       createdAt
       updatedAt
@@ -60,6 +63,7 @@ export const listSessionQuerys = /* GraphQL */ `
       items {
         id
         queryString
+        ownerEmail
         queryExecutionId
         createdAt
         updatedAt
