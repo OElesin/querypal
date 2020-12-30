@@ -1,7 +1,5 @@
 # Querypal
 
-[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/OElesin/querypal)
-
 Querypal is a web-based, query execution tool which leverages Amazon Athena to make authoring queries and retrieving results simple for users. 
 Querypal provides the ability to find tables, see metadata, browse sample rows, write and edit queries, then submit queries all in a web interface. 
 Once queries are running, users can track query progress and when finished, get the results back through the browser as a table.
@@ -9,6 +7,8 @@ Once queries are running, users can track query progress and when finished, get 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Project setup](#project-setup)
+
+![Querypal UI](images/querypal-video-demo.gif)
 
 ### Features  
 - Fully serverless and can be hosted as an Amazon S3 static website.
@@ -31,28 +31,49 @@ Once queries are running, users can track query progress and when finished, get 
 - Yarn package manager
 - See project setup below
 
-## Project setup
+
+## Deployment
+To deploy the infrastructure and code, you'll need an AWS account and a correctly [configured AWS profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) with enough 
+permissions to create the architecture below (Administrator rights are recommended).
+```shell script
+bash ./deploy.sh -p <aws_profile> -r <aws_region> 
 ```
+
+All arguments to the `deploy.sh` script are optional. The default AWS profile and region are used if none are provided.
+
+The script will:
+1. Create a CloudFormation stack named `querypal-web-ui` holding the following: 
+    - AWS Amplify App for Querypal
+    - IAM Service to be assumed by AWS Amplify for managing deployments
+    - SSM Parameter containing the AWS Amplify App ID which will be used later
+2. Deploy an AWS Amplify UI and monitor the job
+3. Print out Querypal AWS Amplify Default Domain URL.
+
+The initial deployment can take 10-15 minutes. The same command can be used for both creating and updating infrastructure.  
+
+## Development
+### Project setup
+```shell script
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
+```shell script
 yarn run serve
 ```
 
 ### Compiles and minifies for production
-```
+```shell script
 yarn run build
 ```
 
 ### Run your tests
-```
+```shell script
 yarn run test
 ```
 
 ### Lints and fixes files
-```
+```shell script
 yarn run lint
 ```
 
