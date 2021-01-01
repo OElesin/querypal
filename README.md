@@ -15,6 +15,8 @@ Once queries are running, users can track query progress and when finished, get 
 - Authentication is managed by Amazon Cognito and can be customized.
 - Table explorer to visualize schema of table and first 1000 rows.
 - Syntax highlighting
+- Global Query Timeline: The query timeline allows users to share queries with their colleagues. Shared queries 
+are visible to all users and can help speed up analysis. 
 
 
 ### TODOs
