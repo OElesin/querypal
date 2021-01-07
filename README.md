@@ -24,6 +24,7 @@ are visible to all users and can help speed up analysis.
 - [x] Query history for self
 - [ ] Result export to CSV
 - [ ] Auto-suggestions
+- [ ] Remove dependency on AWS SSM Parameter store for GitHub Access Token
 
 ### Requirements:
 - AWS Account
@@ -40,6 +41,10 @@ permissions to create the architecture below (Administrator rights are recommend
 ```shell script
 bash ./deploy.sh -p <aws_profile> -r <aws_region> 
 ```
+
+Before executing the shell command above, it is required that you provide a [GitHub Access token](https://github.com/settings/tokens)
+that will be used to create a webhook and read-only deploy key by AWS Amplify. This token should be stored in your [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) 
+with the key `/Querypal/Amplify/GitHubToken`.
 
 All arguments to the `deploy.sh` script are optional. The default AWS profile and region are used if none are provided.
 
