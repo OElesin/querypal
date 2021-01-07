@@ -1,5 +1,5 @@
 <template>
-  <b-col md="7">
+  <b-col md="12">
     <b-row>
       <b-col md="12">
         <b-progress :value="100" :max="100" animated v-if="showProgress"></b-progress>
@@ -62,11 +62,11 @@
         </b-form-group>
         <b-form-group label="Query Description" label-for="desc-input">
           <b-form-textarea
-            id="desc-input"
-            v-model="saveQueryForm.queryDescription"
-            placeholder="Enter something..."
-            rows="3"
-            max-rows="6"
+              id="desc-input"
+              v-model="saveQueryForm.queryDescription"
+              placeholder="Enter something..."
+              rows="3"
+              max-rows="6"
           ></b-form-textarea>
         </b-form-group>
       </form>

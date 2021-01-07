@@ -1,7 +1,7 @@
 <template>
   <b-row style="margin-top: 10px">
     <DatabaseSearch/>
-    <SQLEditor/>
+    <SQLEditorTabs/>
     <b-col md="3">
       <QuerypalTimeline/>
       <hr>
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import SQLEditor from '@/components/SQLEditor'
+import SQLEditorTabs from '@/components/SQLEditorTabs'
 import DatabaseSearch from '@/components/DatabaseSearch'
 import QueriesHistory from '@/components/QueriesHistory'
 import QuerypalTimeline from '@/components/QuerypalTimeline'
 export default {
   name: "QueryPalApp",
-  components: {SQLEditor, DatabaseSearch, QueriesHistory, QuerypalTimeline},
+  components: {SQLEditorTabs, DatabaseSearch, QueriesHistory, QuerypalTimeline},
   mounted() {
     this.$tours['myTour'].start()
   },
