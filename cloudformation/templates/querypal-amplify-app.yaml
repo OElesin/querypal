@@ -30,30 +30,28 @@ Resources:
       Description: Querypal - Web UI for Amazon Athena
       IAMServiceRole: !GetAtt AmplifyServiceRole.Arn
       BuildSpec: |
-        version: 0.1
+        version: 1
         backend:
+          phases:
+            build:
+              commands:
+                - '# Execute Amplify CLI with the helper script'
+                - amplifyPush --simple
+        frontend:
           phases:
             preBuild:
               commands:
-                - npm install -g @aws-amplify/cli
+                - yarn install
             build:
               commands:
-                - amplifyPush --simple
-            frontend:
-              phases:
-                preBuild:
-                  commands:
-                    - yarn install
-                build:
-                  commands:
-                    - yarn run build
-              artifacts:
-                baseDirectory: dist
-                files:
-                  - '**/*'
-              cache:
-                paths:
-                  - node_modules/**/*
+                - yarn run build
+          artifacts:
+            baseDirectory: dist
+            files:
+              - '**/*'
+          cache:
+            paths:
+              - node_modules/**/*
 
   AmplifyServiceRole:
     Type: AWS::IAM::Role
