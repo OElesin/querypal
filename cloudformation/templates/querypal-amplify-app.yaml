@@ -24,7 +24,7 @@ Resources:
   QuerypalAmplifyApp:
     Type: AWS::Amplify::App
     Properties:
-      Name: querypal-test
+      Name: querypal
       Repository: !Ref pQuerypalGitHubRepo
       AccessToken: !Ref pGitHubAccessToken
       Description: Querypal - Web UI for Amazon Athena
