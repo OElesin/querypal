@@ -30,6 +30,7 @@
 import {AthenaClient, ListDatabasesCommand, ListTableMetadataCommand} from '@aws-sdk/client-athena';
 import { Analytics } from '@aws-amplify/analytics';
 import eventBus from "@/event";
+import awsconfig from "@/aws-exports";
 
 export default {
   name: "DatabaseSearch",
@@ -57,7 +58,7 @@ export default {
   methods: {
     eventBusListener(){
       eventBus.$on('refreshCredentials', async (credentials) => {
-        this.client = new AthenaClient({credentials: credentials, region: 'eu-west-1'})
+        this.client = new AthenaClient({credentials: credentials, region: awsconfig.aws_project_region})
         await this.listAthenaDatabases();
       })
     },

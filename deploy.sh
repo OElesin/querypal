@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eux
 
 nflag=false
 pflag=false
@@ -54,7 +55,7 @@ then
 fi
 if ! $tflag
 then
-    echo "-e not specified, using dev..." >&2
+    echo "-t not specified, using /Querypal/Amplify/GitHubToken..." >&2
     GITHUB_TOKEN="/Querypal/Amplify/GitHubToken"
 fi
 
@@ -64,9 +65,7 @@ aws cloudformation deploy --stack-name ${STACK_NAME} \
   --region $REGION \
   --stack-name $STACK_NAME \
   --template-file cloudformation/templates/querypal-amplify-app.yaml \
-  --parameters \
-    ParameterKey=pEnv,ParameterValue=$ENV \
-    ParameterKey=pGitHubAccessToken,ParameterValue=$GITHUB_TOKEN \
+  --parameter-overrides pEnv=$ENV pGitHubAccessToken=$GITHUB_TOKEN \
   --capabilities "CAPABILITY_NAMED_IAM" \
   --no-fail-on-empty-changeset
 

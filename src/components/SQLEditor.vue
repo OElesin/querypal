@@ -98,10 +98,10 @@ export default {
   name: "SQLEditor",
   async created() {
     eventBus.$on('refreshCredentials', async (credentials) => {
-      this.client = new AthenaClient({credentials: credentials, region: 'eu-west-1'})
+      this.client = new AthenaClient({credentials: credentials, region: awsconfig.aws_project_region})
     })
     const credentials = await Auth.currentCredentials()
-    this.client = new AthenaClient({credentials, region: 'eu-west-1'})
+    this.client = new AthenaClient({credentials, region: awsconfig.aws_project_region})
     this.s3QueryOutputPath = `s3://${awsconfig.aws_user_files_s3_bucket}/private/`
   },
   components: {
@@ -152,13 +152,14 @@ export default {
     },
     async handleSubmit() {
       // Exit when the form isn't valid
+      const selectedDatabase = window.document.getElementById('v-step-0').value
       if (!this.checkFormValidity()) {
         return
       }
       const params = {
         Name: this.saveQueryForm.queryName,
         Description: this.saveQueryForm.queryDescription,
-        Database: 'default',
+        Database: selectedDatabase || 'default',
         QueryString: this.code
       }
       const command = new CreateNamedQueryCommand(params)
@@ -184,12 +185,13 @@ export default {
       })
     },
     createAthenaQueryExecution: async function () {
+      const selectedDatabase = window.document.getElementById('v-step-0').value
       const queryParams = {
         QueryString: this.code,
         ResultConfiguration: {
           OutputLocation: this.s3QueryOutputPath,
         },
-        QueryExecutionContext: {Database: 'sampledb'}
+        QueryExecutionContext: {Database: selectedDatabase || 'default'}
       }
       const command = new StartQueryExecutionCommand(queryParams)
       try {
