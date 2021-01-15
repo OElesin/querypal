@@ -13,6 +13,10 @@ Parameters:
     Description: Querypal GitHUb repository. Default is the OSS version. This might change if you decide customize Querypal
     Type: String
     Default: https://github.com/OElesin/querypal
+  pQuerypalAppName:
+    Description: Querypal AWS Amplify App Name
+    Type: String
+    Default: querypal
 Resources:
   AmplifyDevBranch:
     Type: AWS::Amplify::Branch
@@ -24,7 +28,7 @@ Resources:
   QuerypalAmplifyApp:
     Type: AWS::Amplify::App
     Properties:
-      Name: querypal
+      Name: !Ref pQuerypalAppName
       Repository: !Ref pQuerypalGitHubRepo
       AccessToken: !Ref pGitHubAccessToken
       Description: Querypal - Web UI for Amazon Athena

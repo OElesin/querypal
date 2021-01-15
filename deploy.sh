@@ -6,6 +6,7 @@ pflag=false
 rflag=false
 eflag=false
 tflag=false
+aflag=false
 
 
 DIRNAME=$(pwd)
@@ -17,6 +18,7 @@ usage () { echo "
     -r -- AWS Region to use
     -e -- Name of the environment
     -t -- SSM Parameter key containing GitHub Access Token
+    -a -- Querypal AWS Amplify App name
 "; }
 options=':n:p:r:e:dh'
 while getopts $options option
@@ -27,6 +29,7 @@ do
         r  ) rflag=true; REGION=$OPTARG;;
         e  ) eflag=true; ENV=$OPTARG;;
         t  ) tflag=true; GITHUB_TOKEN=$OPTARG;;
+        a  ) aflag=true; QUERYPAL_AMPLIFY_NAME=$OPTARG;;
         h  ) usage; exit;;
         \? ) echo "Unknown option: -$OPTARG" >&2; exit 1;;
         :  ) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
@@ -58,6 +61,12 @@ then
     echo "-t not specified, using /Querypal/Amplify/GitHubToken..." >&2
     GITHUB_TOKEN="/Querypal/Amplify/GitHubToken"
 fi
+if ! $aflag
+then
+    echo "-a not specified, using querypal..." >&2
+    QUERYPAL_AMPLIFY_NAME="/Querypal/Amplify/GitHubToken"
+fi
+
 
 echo "Deploying Querypal Amplify App Stack"
 aws cloudformation deploy --stack-name ${STACK_NAME} \
@@ -65,7 +74,7 @@ aws cloudformation deploy --stack-name ${STACK_NAME} \
   --region $REGION \
   --stack-name $STACK_NAME \
   --template-file cloudformation/templates/querypal-amplify-app.yaml \
-  --parameter-overrides pEnv=$ENV pGitHubAccessToken=$GITHUB_TOKEN \
+  --parameter-overrides pEnv=$ENV pGitHubAccessToken=$GITHUB_TOKEN pQuerypalAppName=$QUERYPAL_AMPLIFY_NAME \
   --capabilities "CAPABILITY_NAMED_IAM" \
   --no-fail-on-empty-changeset
 
