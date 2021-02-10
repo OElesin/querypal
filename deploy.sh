@@ -64,7 +64,7 @@ fi
 if ! $aflag
 then
     echo "-a not specified, using querypal..." >&2
-    QUERYPAL_AMPLIFY_NAME="/Querypal/Amplify/GitHubToken"
+    QUERYPAL_AMPLIFY_NAME="querypal"
 fi
 
 
