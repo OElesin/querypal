@@ -123,8 +123,7 @@ Parameters:
 
   serviceName:
     Type: String
-  functionRuntime:
-    Type: String
+
 
 
   dependsOn:
@@ -276,7 +275,7 @@ Resources:
             - ' }'
             - '};'
       Handler: index.handler
-      Runtime: !Ref functionRuntime
+      Runtime: nodejs14.x
       Timeout: '300'
       Role: !GetAtt
         - UserPoolClientRole

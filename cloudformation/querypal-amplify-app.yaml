@@ -42,6 +42,11 @@ Resources:
         version: 1
         backend:
           phases:
+            preBuild:
+              commands:
+                - amplify --version
+                - npm install -g @aws-amplify/cli
+                - amplify --version
             build:
               commands:
                 - '# Execute Amplify CLI with the helper script'
