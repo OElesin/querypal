@@ -39,12 +39,24 @@ are visible to all users and can help speed up analysis.
 To deploy the infrastructure and code, you'll need an AWS account and a correctly [configured AWS profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) with enough 
 permissions to create the architecture below (Administrator rights are recommended).
 ```shell script
-bash ./deploy.sh -p <aws_profile> -r <aws_region> 
+bash ./deploy.sh -p <aws_profile> -r <aws_region> -t <GitHubToken>
 ```
 
-Before executing the shell command above, it is required that you provide a [GitHub Access token](https://github.com/settings/tokens)
-that will be used to create a webhook and read-only deploy key by AWS Amplify. This token should be stored in your [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) 
-with the key `/Querypal/Amplify/GitHubToken`.
+### Shell Script Parameters
+
+| Parameter | Description                                       | Mandatory |
+|-----------|---------------------------------------------------|-----------|
+| n         | CloudFormation stack name                         | No        |
+| p         | AWS CLI Profile                                   | No        |
+| r         | AWS CLI Region                                    | No        |
+| e         | GitHub Branch to deploy QueryPal from             | No        |
+| t         | GitHub Token in plain text. AWS Amplify needs this to access to repository | Yes       |
+| a         | AWS Amplify App name, i.e. querypal               | No        |
+
+Before executing the shell command above, you MUST provide a [GitHub Access token](https://github.com/settings/tokens)
+that will be used to create a webhook and read-only deploy key by AWS Amplify. See screenshot with permissions required
+below: 
+![GitHub Token Permissions](github-token-permissions.png)
 
 All arguments to the `deploy.sh` script are optional. The default AWS profile and region are used if none are provided.
 

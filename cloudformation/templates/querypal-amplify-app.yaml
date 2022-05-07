@@ -8,7 +8,8 @@ Parameters:
     Default: master
   pGitHubAccessToken:
     Description: Your github access token used to create webhook and read-only deploy key. Should be stored in SSM Parameter store
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
+    NoEcho: true
   pQuerypalGitHubRepo:
     Description: Querypal GitHUb repository. Default is the OSS version. This might change if you decide customize Querypal
     Type: String
@@ -69,144 +70,8 @@ Resources:
                 - amplify.amazonaws.com
             Action: sts:AssumeRole
       Path: /
-      Policies:
-        - PolicyName: "amplify-console-role"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - cloudformation:CreateChangeSet
-                  - cloudformation:CreateStack
-                  - cloudformation:CreateStackSet
-                  - cloudformation:DescribeChangeSet
-                  - cloudformation:DescribeStacks
-                  - cloudformation:DescribeStackEvents
-                  - cloudformation:DescribeStackResource
-                  - cloudformation:DescribeStackResources
-                  - cloudformation:DescribeStackSet
-                  - cloudformation:DescribeStackSetOperation
-                  - cloudformation:DescribeStacks
-                  - cloudformation:ExecuteChangeSet
-                  - cloudformation:GetTemplate
-                  - cloudformation:GetTemplateSummary
-                  - cloudformation:UpdateStack
-                  - cloudformation:UpdateStackSet
-                  - cloudformation:ValidateTemplate
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - iam:AttachRolePolicy
-                  - iam:CreatePolicy
-                  - iam:CreatePolicyVersion
-                  - iam:CreateRole
-                  - iam:CreateServiceLinkedRole
-                  - iam:GetPolicy
-                  - iam:GetPolicyVersion
-                  - iam:GetRole
-                  - iam:GetRolePolicy
-                  - iam:ListPolicies
-                  - iam:ListPolicyVersions
-                  - iam:ListRolePolicies
-                  - iam:ListRoles
-                  - iam:PassRole
-                  - iam:PutGroupPolicy
-                  - iam:PutRolePolicy
-                  - iam:TagRole
-                  - iam:UntagRole
-                  - iam:UpdateAssumeRolePolicy
-                  - iam:UpdateRole
-                  - iam:UpdateRoleDescription
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - s3:CreateBucket
-                  - s3:GetBucketAcl
-                  - s3:GetBucketLocation
-                  - s3:GetBucketPolicy
-                  - s3:GetEncryptionConfiguration
-                  - s3:GetObject
-                  - s3:ListBucket
-                  - s3:PutBucketAcl
-                  - s3:PutBucketPolicy
-                  - s3:PutBucketVersioning
-                  - s3:PutBucketWebsite
-                  - s3:PutEncryptionConfiguration
-                  - s3:PutObject
-                  - s3:PutObjectAcl
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - dynamodb:CreateTable
-                  - dynamodb:DescribeTable
-                  - dynamodb:UpdateTable
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - cognito-identity:CreateIdentityPool
-                  - cognito-identity:DescribeIdentity
-                  - cognito-identity:DescribeIdentityPool
-                  - cognito-identity:SetIdentityPoolRoles
-                  - cognito-identity:UpdateIdentityPool
-                  - cognito-idp:CreateGroup
-                  - cognito-idp:CreateUserPool
-                  - cognito-idp:CreateUserPoolClient
-                  - cognito-idp:DescribeUserPool
-                  - cognito-idp:UpdateUserPool
-                  - cognito-idp:UpdateUserPoolClient
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - codecommit:GitPull
-                  - codecommit:GetRepository
-                  - codecommit:GetRepositoryTriggers
-                  - codecommit:PutRepositoryTriggers
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - lambda:AddPermission
-                  - lambda:CreateEventSourceMapping
-                  - lambda:CreateFunction
-                  - lambda:GetEventSourceMapping
-                  - lambda:GetFunction
-                  - lambda:GetFunctionConfiguration
-                  - lambda:ListEventSourceMappings
-                  - lambda:ListFunctions
-                  - lambda:ListTags
-                  - lambda:InvokeFunction
-                  - lambda:TagResource
-                  - lambda:UpdateEventSourceMapping
-                  - lambda:UpdateFunctionCode
-                  - lambda:UpdateFunctionConfiguration
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - amplify:CreateBackendEnvironment
-                  - amplify:GetApp
-                  - amplify:GetBackendEnvironment
-                  - amplify:ListApps
-                  - amplify:TagResource
-                  - amplify:UntagResource
-                  - amplify:UpdateApp
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - appsync:CreateDataSource
-                  - appsync:CreateGraphqlApi
-                  - appsync:CreateResolver
-                  - appsync:GetGraphqlApi
-                  - appsync:GetSchemaCreationStatus
-                  - appsync:StartSchemaCreation
-                  - appsync:UpdateDataSource
-                  - appsync:UpdateGraphqlApi
-                  - appsync:UpdateResolver
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
   ######## SSM #########
   AmplifyAppIdSSM:
     Type: AWS::SSM::Parameter

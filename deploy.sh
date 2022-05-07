@@ -20,7 +20,7 @@ usage () { echo "
     -t -- SSM Parameter key containing GitHub Access Token
     -a -- Querypal AWS Amplify App name
 "; }
-options=':n:p:r:e:dh'
+options=':n:p:r:e:t:a:dh'
 while getopts $options option
 do
     case "$option" in
@@ -58,8 +58,8 @@ then
 fi
 if ! $tflag
 then
-    echo "-t not specified, using /Querypal/Amplify/GitHubToken..." >&2
-    GITHUB_TOKEN="/Querypal/Amplify/GitHubToken"
+    echo "-t not specified, GitHub Token Cannot be an empty string" >&2
+    exit 255
 fi
 if ! $aflag
 then
