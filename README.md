@@ -33,13 +33,14 @@ are visible to all users and can help speed up analysis.
 - AWS Amplify
 - Yarn package manager
 - See project setup below
+- AWS SAM CLI
 
 
 ## Deployment
 To deploy the infrastructure and code, you'll need an AWS account and a correctly [configured AWS profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) with enough 
 permissions to create the architecture below (Administrator rights are recommended).
 ```shell script
-bash ./deploy.sh -p <aws_profile> -r <aws_region> -t <GitHubToken>
+bash ./deploy.sh -t <GitHubToken>
 ```
 
 ### Shell Script Parameters
@@ -65,8 +66,8 @@ The script will:
     - AWS Amplify App for Querypal
     - IAM Service to be assumed by AWS Amplify for managing deployments
     - SSM Parameter containing the AWS Amplify App ID which will be used later
-2. Deploy an AWS Amplify UI and monitor the job
-3. Print out Querypal AWS Amplify Default Domain URL.
+    - A Lambda function and an AWS CloudFormation custom resource that will the trigger the deployment job in AWS Amplify.
+2. Print out Querypal AWS Amplify Default Domain URL.
 
 The initial deployment can take 10-15 minutes. The same command can be used for both creating and updating infrastructure.  
 

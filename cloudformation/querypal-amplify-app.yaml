@@ -1,6 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
 Description: |
   AWS Cloudformation template to create base resources for Querypal AWS Amplify App
+Globals:
+  Function:
+    Timeout: 300
 Parameters:
   pEnv:
     Description: The environment name
@@ -38,6 +42,11 @@ Resources:
         version: 1
         backend:
           phases:
+            preBuild:
+              commands:
+                - amplify --version
+                - npm install -g @aws-amplify/cli
+                - amplify --version
             build:
               commands:
                 - '# Execute Amplify CLI with the helper script'
@@ -80,6 +89,49 @@ Resources:
       Type: String
       Value: !GetAtt QuerypalAmplifyApp.AppId
       Description: Querypal Amplify App Id
+
+  ### Use AWS CloudFormation CustomResource for Amplify App Deployment ###
+  DeployQueryAmplifyAppFxn:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      CodeUri: ./function_app_deploy/
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - lambda:AddPermission
+                - lambda:RemovePermission
+                - events:PutRule
+                - events:DeleteRule
+                - events:PutTargets
+                - events:RemoveTargets
+              Resource: '*'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - amplify:GetApp
+                - amplify:GetBranch
+                - amplify:UpdateApp
+                - amplify:UpdateBranch
+                - amplify:StartJob
+                - amplify:GetJob
+                - amplify:StopJob
+                - amplify:DeleteApp
+              Resource: '*'
+
+  DeployQueryAmplifyApp:
+    Type: Custom::DeployAmplifyApp
+    DependsOn:
+      - AmplifyDevBranch
+    Properties:
+      ServiceToken: !GetAtt DeployQueryAmplifyAppFxn.Arn
+      AmplifyAppId: !GetAtt QuerypalAmplifyApp.AppId
+      BranchName: !Ref pEnv
 
 Outputs:
   QuerypalAmplifyDomain:

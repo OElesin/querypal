@@ -69,34 +69,15 @@ fi
 
 
 echo "Deploying Querypal Amplify App Stack"
-aws cloudformation deploy --stack-name ${STACK_NAME} \
+sam build --template cloudformation/querypal-amplify-app.yaml --build-dir build --use-container --build-image Function1=amazon/aws-sam-cli-build-image-python3.8
+
+sam deploy --stack-name ${STACK_NAME} \
   --profile $PROFILE \
   --region $REGION \
   --stack-name $STACK_NAME \
-  --template-file cloudformation/templates/querypal-amplify-app.yaml \
+  --s3-bucket datafy-data-lake-public-artifacts \
+  --template-file build/template.yaml \
   --parameter-overrides pEnv=$ENV pGitHubAccessToken=$GITHUB_TOKEN pQuerypalAppName=$QUERYPAL_AMPLIFY_NAME \
   --capabilities "CAPABILITY_NAMED_IAM" \
   --no-fail-on-empty-changeset
-
-echo "Starting initial Amplify job ..."
-APP_ID=$(sed -e 's/^"//' -e 's/"$//' <<<"$(aws ssm get-parameter --profile $PROFILE --region "$REGION" --name /Querypal/Amplify/AppID --query "Parameter.Value")")
-aws amplify start-job --profile $PROFILE --region "$REGION" --app-id "$APP_ID" --branch-name $ENV --job-type RELEASE
-
-until [[ $(aws amplify get-job --profile $PROFILE --region "$REGION" --app-id "$APP_ID" --branch-name $ENV --job-id 1 --query 'job.summary.status' --output text) = *"RUNNING"* ]];
-do
-  echo "Amplify console job is running......"
-  sleep 60s
-  if [[ $(aws amplify get-job --profile $PROFILE --region "$REGION" --app-id "$APP_ID" --branch-name $ENV --job-id 1 --query 'job.summary.status' --output text) != "RUNNING" ]]; then
-    echo "Amplify console job Finished"
-    status=$(aws amplify get-job --profile $PROFILE --region "$REGION" --app-id "$APP_ID" --branch-name $ENV --job-id 1 --query 'job.summary.status' --output text)
-    if [ "$status" == "SUCCEED" ]
-    then
-        echo "JOB $status"
-    else
-        echo "JOB $status"
-        exit 1;
-    fi
-    break
-  fi
-done
 
