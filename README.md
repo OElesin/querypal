@@ -56,7 +56,7 @@ bash ./deploy.sh -p <aws_profile> -r <aws_region> -t <GitHubToken>
 Before executing the shell command above, you MUST provide a [GitHub Access token](https://github.com/settings/tokens)
 that will be used to create a webhook and read-only deploy key by AWS Amplify. See screenshot with permissions required
 below: 
-![GitHub Token Permissions](github-token-permissions.png)
+![GitHub Token Permissions](images/github-token-permissions.png)
 
 All arguments to the `deploy.sh` script are optional. The default AWS profile and region are used if none are provided.
 
