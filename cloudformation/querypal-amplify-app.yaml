@@ -115,6 +115,8 @@ Resources:
                 - amplify:UpdateBranch
                 - amplify:StartJob
                 - amplify:GetJob
+                - amplify:StopJob
+                - amplify:DeleteApp
               Resource: '*'
 
   DeployQueryAmplifyApp:

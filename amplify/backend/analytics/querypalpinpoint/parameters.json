@@ -17,5 +17,6 @@
             "AuthRole",
             "Arn"
         ]
-    }
+    },
+    "functionRuntime": "nodejs14.x"
 }

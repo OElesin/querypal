@@ -51,5 +51,6 @@
     ],
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "dependsOn": []
+    "dependsOn": [],
+    "functionRuntime": "nodejs14.x"
 }

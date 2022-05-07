@@ -33,6 +33,7 @@ are visible to all users and can help speed up analysis.
 - AWS Amplify
 - Yarn package manager
 - See project setup below
+- AWS SAM CLI
 
 
 ## Deployment
