@@ -7,6 +7,7 @@ rflag=false
 eflag=false
 tflag=false
 aflag=false
+bflag=false
 
 
 DIRNAME=$(pwd)
@@ -19,8 +20,9 @@ usage () { echo "
     -e -- Name of the environment
     -t -- SSM Parameter key containing GitHub Access Token
     -a -- Querypal AWS Amplify App name
+    -b -- S3 Bucket Name to upload SAM Artifacts
 "; }
-options=':n:p:r:e:t:a:dh'
+options=':n:p:r:e:t:a:dhb:'
 while getopts $options option
 do
     case "$option" in
@@ -30,6 +32,7 @@ do
         e  ) eflag=true; ENV=$OPTARG;;
         t  ) tflag=true; GITHUB_TOKEN=$OPTARG;;
         a  ) aflag=true; QUERYPAL_AMPLIFY_NAME=$OPTARG;;
+        b  ) bflag=true; S3_SAM_BUCKET=$OPTARG;;
         h  ) usage; exit;;
         \? ) echo "Unknown option: -$OPTARG" >&2; exit 1;;
         :  ) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
@@ -66,6 +69,11 @@ then
     echo "-a not specified, using querypal..." >&2
     QUERYPAL_AMPLIFY_NAME="querypal"
 fi
+if ! $bflag
+then
+    echo "-b not specified, using generating a random s3 name" >&2
+    S3_SAM_BUCKET=$(openssl rand -hex 20)
+fi
 
 
 echo "Deploying Querypal Amplify App Stack"
@@ -75,7 +83,7 @@ sam deploy --stack-name ${STACK_NAME} \
   --profile $PROFILE \
   --region $REGION \
   --stack-name $STACK_NAME \
-  --s3-bucket datafy-data-lake-public-artifacts \
+  --s3-bucket $S3_SAM_BUCKET\
   --template-file build/template.yaml \
   --parameter-overrides pEnv=$ENV pGitHubAccessToken=$GITHUB_TOKEN pQuerypalAppName=$QUERYPAL_AMPLIFY_NAME \
   --capabilities "CAPABILITY_NAMED_IAM" \
