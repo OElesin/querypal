@@ -73,6 +73,7 @@ if ! $bflag
 then
     echo "-b not specified, using generating a random s3 name" >&2
     S3_SAM_BUCKET=$(openssl rand -hex 20)
+    aws s3 mb "s3://${S3_SAM_BUCKET}"
 fi
 
 
