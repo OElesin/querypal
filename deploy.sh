@@ -32,7 +32,7 @@ do
         e  ) eflag=true; ENV=$OPTARG;;
         t  ) tflag=true; GITHUB_TOKEN=$OPTARG;;
         a  ) aflag=true; QUERYPAL_AMPLIFY_NAME=$OPTARG;;
-        b  ) bflag=true; S3_SAM_BUCKET=$OPTARG;;
+        b  ) bflag=true; S3_SAM_BUCKET=$OPTARG;aws s3 mb "s3://${OPTARG}" || true;;
         h  ) usage; exit;;
         \? ) echo "Unknown option: -$OPTARG" >&2; exit 1;;
         :  ) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
